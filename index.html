@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Introducción a Backbone.js - Pablo Monterde - @pablomonterdep</title>
+
+    <meta name="description" content="Introducción a Backbone.js">
+    <meta name="author" content="Pablo Monterde">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/beige.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/default.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <style>
+      .half {
+        width: 50%;
+      }
+
+      ul.half {
+        margin: 0;
+      }
+
+      .left {
+        float: left;
+      }
+
+      .green {
+        color: #17ff2e;
+      }
+
+      .directory, .directory span {
+        color: #8CD0D3;
+      }
+
+      .comment, .comment span {
+        color: #7F9F7F;
+      }
+
+      .new_file, .new_file span {
+        color: #9BE6A3;
+      }
+
+      section img.clean-image {
+        background:none;
+        border:none;
+        box-shadow:none
+      }
+
+    </style>
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <div class="slides">
+
+        <section>
+          <h1>Backbone.js</h1>
+          <h3>Introducción</h3>
+          <p>
+            <small>By <a href="http://">Pablo Monterde</a> / <a href="http://twitter.com/pablomonterdep">@pablomonterdep</a></small>
+          </p>
+          <img class="clean-image" src="img/backbone.png">
+        </section>
+
+        <section>
+          <h2>Pablo Monterde</h2>
+          <ul>
+            <li><a href="">PHP - javascript - actionscript3</a></li>
+            <li><a href="http://www.onbile.com">Onbile</a></li>
+            <li><a href="mailto:pablomonterde@gmail.com">pablomonterde@gmail.com</a></li>
+            <li><a href="http://twitter.com/pablomonterdep">@pablomonterdep</a></li>
+          </ul>
+        </section>
+
+        
+
+        <section>
+          <h2> Backbone.js </h2>
+         
+          <blockquote cite="http://backbonejs.org/">Backbone.js provee una estructura a aplicaciones que hacen uso intensivo de <strong>Javascript</strong> en el lado del cliente, proveyendo <strong>modelos</strong> clave-valor enlazables mediante <strong>eventos</strong>, <strong>colecciones</strong> con una extensa API, <strong>vistas</strong> con manejadores de eventos declarativos y conexiones a interfaces <strong>RESTful JSON</strong>.</blockquote>
+        </section>
+
+        <section>
+          <h2>¿Qué es Backbone.js?</h2>
+          <blockquote cite="http://backbonejs.org/">Get your truth out of the DOM</blockquote>
+           <ul>
+            <li>Provee estructura a tu client side app</li>
+            <li>Modelos para representar datos</li>
+            <li>Vistas para reflejar los model en el DOM</li>
+            <li>Sincronizar datos con el server</li>
+            <li>Patrón MVC - MVR</li>
+            <li>Light weight <strong>4kb</strong></li>
+            <li>Creado por <strong>Jeremy Ashkenas</strong>  <small>(coffeScript,underscore.js,...)</small></li>
+          </ul>
+        </section> 
+
+        <section>
+          <h2>Filosofía</h2>
+          <ul>
+            <li>Eliminar código spaghetti</li>
+            <li>Estructuras de datos definidas</li>
+            <li>Separar el DOM de la lógica de negocio (no imprimir tus datos en el DOM)</li>
+            <li>Sincronización de datos con el servidor fácil y ordenada</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Por y para qué uso Backbones.js?</h2>
+          <ul>
+            <li>Ayuda es escribir código limpio</li>
+            <li>Compatible con plugins Jquery y otras librerias</li>
+            <li>Conjunto de funciones = vidas mas fácil</li>
+            <li>Flexible</li>
+            <li>Muy ligero</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Otras características</h2>
+          <ul>
+            <li>No es sustituyente</li>
+            <li>Curva de aprendizaje rápida</li>
+            <li>Dependencias con librerias conocidas:</li>
+              <ol>json2.js</ol>
+              <ol>Jquery - Zepto</ol>
+              <ol>Underscore.js (hard dependency)</ol>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Underscore.js</h2>
+          <blockquote >NO TE CREES ESA FUNCION porque YA ESTÁ HECHA...</blockquote>
+          <ul>
+            <li>80 funciones primitivas</li>
+              <ol>Collections</ol>
+              <ol>Arrays</ol>
+              <ol>Functions</ol>
+              <ol>Objects</ol>
+              <ol>Utility</ol>
+            <li>+60 funciones manipulación Strings con <strong>underscoreString.js</strong></li>
+          </ul>
+          <pre><code contenteditable style="max-height: 600px">
+  var betabeersAssitants = [
+    {name:'Juan' , profession:'programmer', age:24},
+    {name:'Peter' , profession:'programmer', age:31},
+    {name:'Daniel' , profession:'translator', age:75}
+  ];
+
+  _.where(betabeersAssitants, {profession: 'translator',  age:75});
+  => [{name:'Daniel' , profession:'translator', age:75}]
+          </code></pre>
+        </section>
+       
+
+        <section>
+          <section>
+            <h2>Proyectos desarrollados con Backbone.js</h2>
+            <div class="half left">
+              <p><a href="http://www.documentcloud.org/">documentcloud</a></p>
+              <img src="img/opensky.png" alt="">
+            </div>
+            <div class="half left">
+              <p><a href="http://www.usatoday.com/">usatoday</a></p>
+              <img src="img/usa-today.png" alt="">
+            </div>
+          </section>
+
+          <section>
+            <div class="half left">
+              <p><a href="http://www.linkedin.com/">LinkedIn Mobile</a></p>
+              <img src="img/linkedin-mobile.png" alt="">
+            </div>
+            <div class="half left">
+              <p><a href="http://wordpress.com/"></a>WordPress.com</p>
+              <img src="img/wordpress.jpeg" alt="">
+            </div>
+          </section>
+          
+          <section>
+            <h3><a href="https://bitbucket.com/"></a>bitbucket</h3>
+            <img class="image" src="img/bitbucket.png" alt="">
+          </section>
+
+          <section>
+            <h3><a href="https://foursquare.com/"></a>foursquare</h3>
+            <img class="image" src="img/foursquare.png" alt="">
+          </section>
+
+        </section>
+        <section>
+          <h2>Backbone.js Components</h2>
+          <img class="image" src="img/backboneFlow.png" alt="">
+        </section>
+        <section>
+
+          <section>
+            <h1>Events</h1>
+            <ul>
+              <li>Orientado a eventos</li>
+              <li>Eventos como método principal de comunicación entre componentes</li>
+              <li>Todo componente Backbone es capaz de <strong>emitir</strong> y <strong>capturar</strong> eventos</li>
+            </ul>
+          </section> 
+
+          <section>
+            <h2>Event funcions</h2>
+            <ul>
+              <li>on</li>
+              <li>off</li>
+              <li>trigger</li>
+              <li>once</li>
+              <li>listenTo</li>
+              <li>stopListening</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Catalog of Events </h2>
+            <ul>
+              <li>add</li>
+              <li>remove</li>
+              <li>reset</li>
+              <li>sort</li>
+              <li>change</li>
+              <li>change:[attribute]</li>
+              <li>destroy</li>
+              <li>request</li>
+              <li>sync</li>
+              <li>error</li>
+              <li>invalid</li>
+              <li>route:[name]</li>
+              <li>route</li>
+              <li>all</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Events mixin</h2>
+            <ul>
+              <li>Cualquier objeto capaz de <strong>emitir</strong> y <strong>capturar</strong> eventos</li>
+            </ul>
+            <pre><code contenteditable style="max-height: 600px">
+var notifier = {};
+var noticeboard = {};
+
+_.extend(notifier, Backbone.Events);
+_.extend(noticeboard, Backbone.Events);
+
+noticeboard.listenTo(notifier,"alert", function(msg) {
+  alert(msg);
+});
+
+notifier.trigger("alert", "Hello Betabeers");
+
+
+          </code></pre>
+
+          </section>
+        </section>  
+
+        <section>
+
+          <section>
+            <h1>Models</h1>
+            <blockquote cite="http://backbonejs.org/">Models are the heart of any JavaScript application...</blockquote>
+          </section>  
+
+          <section>
+            <h2>¿Qué aportan los models de Backbone?</h2>
+            <ul>
+              <li>Estructura de datos</li>
+              <li>Validación de datos</li>
+              <li>Memoria</li>
+              <li>Notificación de cambios de estado</li>
+              <li><strong>Sincronización</strong> con el server</li>
+              <li>...</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Creando un Model</h2>
+             <pre><code contenteditable style="max-height: 600px">
+var Talk = Backbone.Model.extend({  
+    initialize: function(){  
+        alert("I am a talk");  
+    },  
+    defaults: {  
+        speaker: 'Default speaker',  
+        topic: '',  
+    }  
+});  
+
+var firstTalk = new Talk({ speaker: " Paco Camarena", topic: 'CookieBit'});  
+var speaker = firstTalk.get('speaker');  
+portal.set({ name: "Portal 2 by Valve"}); 
+
+
+          </code></pre>
+          </section>  
+
+            
+
+
+
+
+
+        </section>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section>
+          <h3>Framework Backbone.js</h3>
+          <img class="image" src="img/sf2-full.png" alt="">
+        </section>
+
+        <section>
+          <h2>Bundles</h2>
+          <blockquote cite="http://symfony.com/doc/2.0/cookbook/bundles/best_practices.html">A bundle is a directory that has a well-defined structure and can host anything from classes to controllers and web resources.</blockquote>
+          <ul>
+            <li>Funcionalidad e integración</li>
+            <li><a href="http://knpbundles.com">KnpBundles</a> <span class="green">+1800</span></li>
+            <li><a href="http://symfony.es/bundles/">symfony.es/bundles</a></li>
+            <li>Demasiados bundles para lo mismo</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Ecosistema</h2>
+          <ul>
+            <li>Doctrine/Propel</li>
+            <li>Twig</li>
+            <li>Monolog</li>
+            <li>Assetic</li>
+            <li>SwiftMailer</li>
+          </ul>
+        </section>
+
+        <section>
+          <img class="clean-image" src="img/composer.png" style="position:absolute;left:0;top:0" alt="">
+          <h2>Composer</h2>
+          <ul>
+            <li><a href="http://getcomposer.org/">Gestión de dependencias en PHP</a></li>
+            <li><a href="http://packagist.org">Packagist</a></li>
+            <li>Autoloading</li>
+            <li>Estándar de facto</li>
+            <li>Muy fácil de usar</li>
+            <li>composer.json</li>
+          </ul>
+          <pre><code contenteditable># Descarga composer.phar
+$ curl -s https://getcomposer.org/installer | php</pre></code>
+          <pre><code contenteditable>{
+    "require": {
+        "symfony/framework-standard-edition": "2.1.7",
+        "liip/imagine-bundle": "dev-master",
+    }
+}</code></pre>
+<pre><code contenteditable>$ php composer.phar install</pre></code>
+        </section>
+
+        <section>
+          <section>
+            <img class="clean-image" src="img/doctrine.png" style="position:absolute;left:0;top:0" alt="">
+            <h2>Doctrine</h2>
+            <ul>
+              <li>Doctrine ORM</li>
+              <li>Entities - POPOs</li>
+              <li>Mapping (anotaciones, XML, Yaml)</li>
+              <li>DQL</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Entities</h2>
+            <pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px">use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name=&quot;bb_user&quot;)
+ * @ORM\Entity()
+ */
+class User
+{
+    /**
+     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(name=&quot;first_name&quot;, type=&quot;string&quot;, length=50)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\OneToMany(targetEntity=&quot;Foo\BarBundle\Entity\Address&quot;,
+            mappedBy=&quot;user&quot;)
+     */
+    private $addresses;
+}</code></pre>
+          </section>
+
+          <section>
+            <h3>Entity Manager</h3>
+            <pre><code contenteditable style="max-height: 600px">$em = $container-&gt;get('doctrine')-&gt;getManager();
+
+for($i = 0; $i &lt; 1000; $i++) {
+  $user = new User();
+  $user-&gt;setFirstname($names[$i]);
+  //...
+  $em-&gt;persist($user);
+}
+
+$em-&gt;flush();</code></pre>
+
+            <h3>DQL</h3>
+            <pre><code contenteditable style="max-height: 600px">$dql = &quot;SELECT u
+        FROM FooBarBundle:User u
+        LEFT JOIN u.addresses a
+        WHERE a.country = :country&quot;;
+$query = $em-&gt;createQuery($dql);
+$query-&gt;setParameter(&quot;country&quot;, &quot;Spain&quot;);
+
+$spanishUsers = $query-&gt;getResult();</code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <img class="clean-image" src="img/twig.png" style="position:absolute;right:0;top:0" alt="">
+            <h2>Twig</h2>
+            <ul>
+              <li>Motor de plantillas</li>
+              <li>Fast: Compila a PHP</li>
+              <li>Flexible: Fácil crear filtros, funciones y tags</li>
+              <li>Fácil de aprender</li>
+              <li>Herencia</li>
+              <li>Fuerza buenas prácticas</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Sintaxis orientada a plantillas</h3>
+            <pre><code contenteditable>{% for user in users %}
+    * {{ user.name }}
+{% else %}
+    No user have been found.
+{% endfor %}</code></pre>
+            <h3>Conciso</h3>
+            <pre><code contenteditable>&lt;?php echo $var ?&gt;
+&lt;?php echo htmlspecialchars($var, ENT_QUOTES, 'UTF-8') ?&gt;</code></pre>
+            <pre class="fragment"><code contenteditable>{{ var }}
+{{ var|e }}</code></pre>
+
+<pre class="fragment"><code contenteditable>&lt;?php echo $user->isEnabled() ?&gt;</code></pre>
+<pre class="fragment"><code contenteditable>{{ user.enabled }}</code></pre>
+
+          </section>
+
+          <section>
+            <h3>Filtros</h3>
+            <pre><code contenteditable>{# Filtros #}
+{% set names = ["pepe", "juan", "maría"] %}
+
+{{ names|join(", ") }}                {# output: pepe, juan, maría #}
+{{ names|sort|join("-") }}            {# output: juan-maría-pepe #}
+
+{{ post.publishedAt|date('d-m-Y') }}  {# output: 21-02-2013 #}</code></pre>
+            <h3>Tags</h3>
+            <pre><code contenteditable>{% macro input(name, value, type, size) %}
+    &lt;input type=&quot;{{ type|default('text') }}&quot; name=&quot;{{ name }}&quot;
+      value=&quot;{{ value|e }}&quot; size=&quot;{{ size|default(20) }}&quot; /&gt;
+{% endmacro %}
+
+&lt;p&gt;{{ forms.input('username') }}&lt;/p&gt;</code></pre>
+          <small><a href="http://twig.sensiolabs.org/documentation">Documentación Twig</a></small>
+          </section>
+        </section>
+
+        <section>
+          <h2>Assetic</h2>
+          <ul>
+            <li>Framework de gestión de recursos web</li>
+            <li>Filtros (LESS, SASS, CoffeeScript)</li>
+            <li>Minimizar y combinar JS y CSS</li>
+            <li>Optimización de imágenes</li>
+          </ul>
+          <pre><code contenteditable>{% javascripts '@AcmeFooBundle/Resources/public/js/*' filter='yui_js' %}
+    &lt;script type=&quot;text/javascript&quot; src=&quot;{{ asset_url }}&quot;&gt;&lt;/script&gt;
+{% endjavascripts %}</code></pre>
+          <pre><code contenteditable>{% image '@AcmeFooBundle/Resources/public/images/example.jpg'
+    filter='jpegoptim' output='/images/example.jpg' %}
+    &lt;img src=&quot;{{ asset_url }}&quot; alt=&quot;Example&quot;/&gt;
+{% endimage %}</code></pre>
+        </section>
+
+        <section>
+          <section>
+          <h3>Crear un proyecto en Backbone.js</h3>
+          <pre><code contenteditable>$ php composer.phar create-project
+            symfony/framework-standard-edition betabeers/ 2.1.7</code></pre>
+          <pre><code contenteditable># Permisos
+$ sudo chmod +a "www-data allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
+$ sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs</code></pre>
+          </section>
+          <section>
+            <h2>Hello World!</h2>
+            <img class="image" src="img/symfony-inicio.png" alt="">
+          </section>
+          <section>
+            <h2>Profiler</h2>
+            <img class="image" src="img/profiler.png" alt="">
+          </section>
+          <section>
+            <h2>Estructura de directorios</h2>
+            <pre><code contenteditable style="font-size:.9em;line-height:110%">├── <span class="directory">app</span>
+│   ├── <span class="directory">Resources</span>
+│   ├── <span class="directory">cache</span>
+│   ├── <span class="directory">config</span>
+│   │   ├── routing.yml
+│   │   ├── security.yml
+│   │   ├── config.yml
+│   │   ├── parameters.yml
+│   ├── <span class="directory">logs</span>
+│   ├── AppKernel.php
+│   └── console
+├── <span class="directory">src</span>
+├── <span class="directory">vendor</span>
+├── <span class="directory">web</span>
+│   ├── app.php
+│   ├── app_dev.php
+│   └── config.php
+├── composer.json
+└── composer.lock</code></pre>
+
+          </section>
+          <section>
+            <h2>Crear un bundle</h2>
+            <pre><code contenteditable style="font-size:.85em;line-height:105%">$ php app/console generate:bundle
+<span class="comment">Bundle namespace:</span> FranMoreno/BetabeersBundle
+<span class="comment">Bundle name [FranMorenoBetabeersBundle]:</span> BetabeersBundle
+<span class="comment">Target directory [/Users/franmoreno/projects/betabeers/src]:</span>
+<span class="comment">Configuration format (yml, xml, php, or annotation) [annotation]:</span>
+<span class="comment">Do you want to generate the whole directory structure [no]?</span> yes
+<span class="comment">Do you confirm generation [yes]?</span>
+<span class="comment">Generating the bundle code: OK</span>
+<span class="comment">Checking that the bundle is autoloaded: OK</span>
+<span class="comment">Confirm automatic update of your Kernel [yes]?</span>
+<span class="comment">Enabling the bundle inside the Kernel: OK</span>
+<span class="comment">Confirm automatic update of the Routing [yes]?</span>
+<span class="comment">Importing the bundle routing resource: OK</span></code></pre>
+<pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px">src/FranMoreno/BetabeersBundle
+├── <span class="directory">Controller</span>
+│   └── DefaultController.php
+├── <span class="directory">DependencyInjection</span>
+├── <span class="directory">Resources</span>
+│   ├── <span class="directory">config</span>
+│   │   └── services.xml
+│   ├── <span class="directory">doc</span>
+│   ├── <span class="directory">public</span>
+│   │   ├── <span class="directory">css</span>
+│   │   ├── <span class="directory">images</span>
+│   │   └── <span class="directory">js</span>
+│   ├── <span class="directory">translations</span>
+│   └── <span class="directory">views</span>
+│       └── <span class="directory">Default</span>
+│           └── index.html.twig
+├── <span class="directory">Tests</span>
+└── BetabeersBundle.php</code></pre>
+          </section>
+
+          <section>
+            <h3>Entity</h3>
+            <pre><code contenteditable style="font-size:.85em;line-height:105%;max-height: 600px">class User
+{
+  /**
+   * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;)
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
+   */
+  private $id;
+
+  /**
+   * @ORM\Column(name=&quot;firstname&quot;, type=&quot;string&quot;, length=50)
+   * @Assert\NotBlank()
+   */
+  private $firstname;
+
+  /**
+   * @ORM\ManyToOne(targetEntity=&quot;FranMoreno\BetabeersBundle\Entity\Country&quot;)
+   * @ORM\JoinColumn(name=&quot;coutry_id&quot;, referencedColumnName=&quot;id&quot;)
+   * @Assert\NotNull()
+   */
+  private $country;
+
+  /**
+   * @ORM\OneToOne(targetEntity=&quot;FranMoreno\BetabeersBundle\Entity\Profile&quot;, mappedBy=&quot;user&quot;)
+   */
+  private $profile;
+
+  /**
+   * @ORM\OneToMany(targetEntity=&quot;FranMoreno\BetabeersBundle\Entity\Address&quot;, mappedBy=&quot;user&quot;)
+   */
+  private $addresses;
+}</code></pre>
+          </section>
+
+          <section>
+            <h3>Formularios</h3>
+            <pre><code contenteditable style="font-size:.9em;line-height:105%;max-height: 600px">class UserType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            -&gt;add('firstname')
+            -&gt;add('country', 'entity', array(
+                'class' =&gt; 'FranMoreno\BetabeersBundle\Entity\Country'
+            ))
+            -&gt;add('profile', new ProfileType())
+            -&gt;add('addresses', 'collection', array(
+                'type' =&gt; new AddressType(),
+                'allow_add' =&gt; true,
+                'allow_delete' =&gt; true,
+                'by_reference' =&gt; false
+            ))
+        ;
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver-&gt;setDefaults(array(
+            'data_class' =&gt; 'FranMoreno\BetabeersBundle\Entity\User'
+        ));
+    }
+
+    public function getName()
+    {
+        return 'user';
+    }
+}</code></pre>
+          </section>
+
+          <section>
+            <h3>Controladores</h3>
+            <pre><code contenteditable style="font-size:.9em;line-height:105%;max-height: 600px">/**
+ * @Route(&quot;/user&quot;)
+ */
+class UserController extends Controller
+{
+    /**
+     * @Route(&quot;/new&quot;, name=&quot;user_new&quot;)
+     * @Template()
+     */
+    public function newAction(Request $request)
+    {
+        $entity  = new User();
+        $form = $this-&gt;createForm(new UserType(), $entity);
+        if ($request-&gt;isMethod("POST")) {
+
+          $form-&gt;bind($request);
+
+          if ($form-&gt;isValid()) {
+              $em = $this-&gt;getDoctrine()-&gt;getManager();
+              $em-&gt;persist($entity);
+              $em-&gt;flush();
+
+              return $this-&gt;redirect($this-&gt;generateUrl('user_show', array(
+                  'id' =&gt; $entity-&gt;getId()
+              )));
+          }
+        }
+
+        return array(
+            'entity' =&gt; $entity,
+            'form'   =&gt; $form-&gt;createView(),
+        );
+    }</code></pre>
+          </section>
+
+          <section>
+            <h2>Vista</h2>
+            <pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px">{% extends '::base.html.twig' %}
+
+{% block javascripts %}
+  {{ parent() }}
+  &lt;script src=&quot;{{ asset('bundles/betabeers/js/validation.js') }}&quot;&gt;&lt;/script&gt;
+{% endblock %}
+
+{% block content %}
+  &lt;h1&gt;User creation&lt;/h1&gt;
+
+  &lt;form action=&quot;{{ path('user_new') }}&quot; method=&quot;post&quot; {{ form_enctype(form) }}&gt;
+    {{ form_widget(form) }}
+    &lt;p&gt;
+        &lt;button type=&quot;submit&quot;&gt;Create&lt;/button&gt;
+    &lt;/p&gt;
+  &lt;/form&gt;
+
+  &lt;a href=&quot;{{ path('homepage') }}&quot;&gt;Back to the list&lt;/a&gt;
+{% endblock %}</code></pre>
+          </section>
+
+          <section>
+            <h2>Resultado</h2>
+            <img class="image" src="img/users-image.jpg" alt="">
+          </section>
+
+          <section>
+            <h2>Crear un CRUD en base a Entity</h2>
+            <pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px">php app/console doctrine:generate:crud
+<span class="comment">The Entity shortcut name:</span> BetabeersBundle:User
+<span class="comment">Do you want to generate the "write" actions [no]?</span> yes
+<span class="comment">Configuration format (yml, xml, php, or annotation) [annotation]:</span>
+<span class="comment">Routes prefix [/user]:</span>
+<span class="comment">Do you confirm generation [yes]?</span>
+<span class="comment">Generating the CRUD code: OK</span>
+<span class="comment">Generating the Form code: OK</span></code></pre>
+
+            <pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px"><span class="directory">src/FranMoreno/BetabeersBundle</span>
+├── <span class="directory">Controller</span>
+│   └── <span class="new_file">UserController.php</span>
+├── <span class="directory">Entity</span>
+│   └── User.php
+├── <span class="directory">Form</span>
+│   └── <span class="new_file">UserType.php</span>
+├── <span class="directory">Resources</span>
+│   └── <span class="directory">views</span>
+│       └── <span class="directory">User</span>
+│           ├── <span class="new_file">edit.html.twig</span>
+│           ├── <span class="new_file">index.html.twig</span>
+│           ├── <span class="new_file">new.html.twig</span>
+│           └── <span class="new_file">show.html.twig</span>
+└── <span class="directory">Tests</span>
+    └── <span class="directory">Controller</span>
+        └── <span class="new_file">UserControllerTest.php</span></code></pre>
+
+          </section>
+        </section>
+
+        <section>
+          <h2>Ventajas</h2>
+          <ul>
+            <li>Desarrollo rápido de aplicaciones</li>
+            <li>Rápido</li>
+            <li>Flexible</li>
+            <li>Extensible</li>
+            <li>Estable y sostenible</li>
+            <li>Testeable</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Desventajas</h2>
+          <ul>
+            <li>Curva de aprendizaje</li>
+            <li>API aún no estable</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Aprender Backbone.js</h2>
+          <ul>
+            <li><a href="http://www.symfony.com">Documentación oficial</a></li>
+            <li><a href="http://symfony.es/libro/">Libro: Desarrollo web ágil con Backbone.js - Javier Eguiluz</a></li>
+            <li><a href="http://www.maestrosdelweb.com/editorial/curso-Backbone.js-introduccion-instalacion/">Curso introducción a Backbone.js - Maestros del web</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Referencias</h2>
+          <ul>
+            <li><a href="http://www.symfony.com">Symfony.com</a></li>
+            <li><a href="http://fabien.potencier.org/article/49/what-is-Backbone.js">http://fabien.potencier.org/article/49/what-is-Backbone.js</a></li>
+            <li><a href="https://speakerdeck.com/betabeers/taller-Backbone.js">https://speakerdeck.com/betabeers/taller-Backbone.js</a></li>
+            <li><a href="http://symfony.com/six-good-technical-reasons">http://symfony.com/six-good-technical-reasons</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>¿Preguntas?</h1>
+          <ul>
+            <li><a href="mailto:@gmail.com">@gmail.com</a></li>
+            <li><a href="http://twitter.com/pablomonterdep">@pablomonterdep</a></li>
+          </ul>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: false,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+          // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-35259405-2']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+  </body>
+</html>

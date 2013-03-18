@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Introducción a Backbone.js - Pablo Monterde - @pablomonterdep</title>
+
+    <script src="js/jquery.js"><!--mce:0--></script>
+    <script src="js/underscore.js"><!--mce:1--></script>
+    <script src="js/backbone.js"><!--mce:2--></script>
+    <script src="js/examples.js"><!--mce:3--></script>
+   
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <style>
+      .half {
+        width: 50%;
+      }
+
+      ul.half {
+        margin: 0;
+      }
+
+      .left {
+        float: left;
+      }
+
+      .green {
+        color: #17ff2e;
+      }
+
+      .directory, .directory span {
+        color: #8CD0D3;
+      }
+
+      .comment, .comment span {
+        color: #7F9F7F;
+      }
+
+      .new_file, .new_file span {
+        color: #9BE6A3;
+      }
+
+      section img.clean-image {
+        background:none;
+        border:none;
+        box-shadow:none
+      }
+
+    </style>
+  </head>
+
+  <body>
+
+<script type="text/javascript">
+  var notifier = {};
+  var noticeboard = {};
+
+  _.extend(notifier, Backbone.Events);
+  _.extend(noticeboard, Backbone.Events);
+
+  noticeboard.listenTo(notifier,"alert", function(msg) {
+    //alert(msg);
+  });
+
+  notifier.trigger("alert", "Hello Betabeers");
+ f = function g(){ return 23; };
+var y = 1, x = y = typeof x;
+
+  console.log(x === 'undefined');
+
+
+</script>
+  
+
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,4 @@
+video: http://www.desarrolloweb.com/en-directo/backboneio-conocer-experimentar-backbone-js-7530.html
+http://alfonsomarin.com/tutorial-de-backbone-js
+MUY BUENA:
+http://net.tutsplus.com/tutorials/javascript-ajax/getting-started-with-backbone-js/
