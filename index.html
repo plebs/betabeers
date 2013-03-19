@@ -299,476 +299,378 @@ notifier.trigger("alert", "Hello Betabeers");
             <h2>Creando un Model</h2>
              <pre><code contenteditable style="max-height: 600px">
 var Talk = Backbone.Model.extend({  
-    initialize: function(){  
-        alert("I am a talk");  
-    },  
     defaults: {  
-        speaker: 'Default speaker',  
-        topic: '',  
-    }  
+      speaker: 'Default speaker',  
+      topic: '' 
+    },
+    initialize: function(){ // Contructor },  
+    notifyTopic:function(){ ... }  
 });  
 
-var firstTalk = new Talk({ speaker: " Paco Camarena", topic: 'CookieBit'});  
-var speaker = firstTalk.get('speaker');  
-portal.set({ name: "Portal 2 by Valve"}); 
+var talk = new Talk({ speaker: "Paco Camarena", topic: 'Backbone.js'});  
 
+talk.get('topic'); // => 'Backbone.js'
 
+talk.set('topic', "CookieBit"}); 
+talk.get('topic'); // => 'CookieBit' 
+  
           </code></pre>
           </section>  
+          <section>
+            <h2>Extend</h2>
+             <pre><code contenteditable style="max-height: 600px">
+var Talk = Backbone.Model.extend({  
+    defaults: {  
+      speaker: 'Default speaker',  
+      topic: '' 
+    },
+    initialize: function(){ // Contructor },  
+    notifyTopic:function(){ ... }  
+});
 
-            
+var Conference = Talk.extend({  
+    initialize: function(){ // Contructor },  
+    notifySpeaker:function(){ ... }  
+});
 
+var conference = new Conference({ speaker: "Héctor Badal", topic: 'Yeepply'}); 
+conference.notifyTopic();
+conference.notifySpeaker();
 
+          </code></pre>
+<p>¿Acceso a <i>super</i>? <strong>NO</strong></p>
+          </section>  
+          <section>
+           <h2>Trabajando con atributos</h2>
+          
+          <ul>
+            <li>get</li>
+            <li>set</li>
+            <li>has</li>
+            <li>unset</li>
+            <li><strong>validate</strong></li>
+            <li>...</li>
+          </ul>
+            <pre><code contenteditable style="max-height: 600px">
+var Talk = Backbone.Model.extend({  
+    validate: function(attrs, options) {
+      if(attrs.topic === 'Symbian'){
+        return 'Sorry, nobody is interested in it';
+      }
+    }
+});
 
+var talk = new Talk({ speaker: 'Pablo Monterde', topic:'Backbone.js'});
+talk.set('topic','Symbian',{validation:true}); 
+talk.get('topic'); // => 'Backbone.js'
+          </code></pre>
+          <p>Cada cambio en un modelo dispara un evento <strong>change</strong></p>
+          </section>  
+          <section>
+           <h2>Estados de un model</h2>
+          <ul>
+            <li>isNew</li>
+            <li>hasChanged</li>
+            <li>changedAttributes</li>
+            <li>previous</li>
+            <li>...</li>
+          </ul>
+            <pre><code contenteditable style="max-height: 600px">
+var talk = new Talk({ speaker: "Paco Camarena", topic: 'CookieBit'});  
+talk.set('topic','Backbone.js'); 
+var previousTopic = talk.previous('topic'); // => 'CookieBit' 
+          </code></pre>
+            <blockquote cite="http://backbonejs.org/"> Useful for getting back to a valid state after an error occurs.</blockquote>
+          </section>  
+          <section>
+            <h2>Sincronización y persistencia</h2>
+            <h3>RESTful API</h2>
+              <ul>
+                <li>fetch</li>
+                <li>save</li>
+                <li>destroy</li>  
+                <li>sync</li>
+            </ul>
+          </section>  
+          <section>
+            <h2>Traer datos del servidor</h2>
+            <h3>fetch</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var Talk = Backbone.Model.extend({  
+    urlRoot:'talks',
+});
+var talk = new Talk({id:1});
+talk.fetch(); // se genera GET /talks/1
+          </code></pre>
+          </section>    
+          <section>
+            <h2>Persistencia datos</h2>
+            <h3>save - sync</h2>
+            <pre><code contenteditable style="max-height: 600px">
 
+var talk = new Talk({speaker: "Pablo Monterde", topic: 'Backbone.js'});
+talk.save(); // se genera POST /talks , contenido: {speaker: "Pablo Monterde", topic: 'Backbone.js'};
 
+talk.set('id',1);
+talk.save(); // se genera PUT /talks/1 , contenido: {id:1, speaker: "Pablo Monterde", topic: 'Backbone.js,is'};
+          </code></pre>
+          <div>Se validan los datos antes de enviarlos al server </div>
+          <div><strong>.save({wait:true})</strong> no se modifican los atributos hasta que se recibe respuesta del servidor  </div>
+          </section>    
+          <section>
+            <h2>Borrado de datos</h2>
+            <h3>destroy</h2>
+            <pre><code contenteditable style="max-height: 600px">
+
+talk.destroy(); // se genera DELETE /talks/1 
+
+          </code></pre>
+          <p>Trigger evento <i>destroy</i></p>
+          </section>    
         </section>  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <section>
-          <h3>Framework Backbone.js</h3>
-          <img class="image" src="img/sf2-full.png" alt="">
-        </section>
 
-        <section>
-          <h2>Bundles</h2>
-          <blockquote cite="http://symfony.com/doc/2.0/cookbook/bundles/best_practices.html">A bundle is a directory that has a well-defined structure and can host anything from classes to controllers and web resources.</blockquote>
-          <ul>
-            <li>Funcionalidad e integración</li>
-            <li><a href="http://knpbundles.com">KnpBundles</a> <span class="green">+1800</span></li>
-            <li><a href="http://symfony.es/bundles/">symfony.es/bundles</a></li>
-            <li>Demasiados bundles para lo mismo</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>Ecosistema</h2>
-          <ul>
-            <li>Doctrine/Propel</li>
-            <li>Twig</li>
-            <li>Monolog</li>
-            <li>Assetic</li>
-            <li>SwiftMailer</li>
-          </ul>
-        </section>
-
-        <section>
-          <img class="clean-image" src="img/composer.png" style="position:absolute;left:0;top:0" alt="">
-          <h2>Composer</h2>
-          <ul>
-            <li><a href="http://getcomposer.org/">Gestión de dependencias en PHP</a></li>
-            <li><a href="http://packagist.org">Packagist</a></li>
-            <li>Autoloading</li>
-            <li>Estándar de facto</li>
-            <li>Muy fácil de usar</li>
-            <li>composer.json</li>
-          </ul>
-          <pre><code contenteditable># Descarga composer.phar
-$ curl -s https://getcomposer.org/installer | php</pre></code>
-          <pre><code contenteditable>{
-    "require": {
-        "symfony/framework-standard-edition": "2.1.7",
-        "liip/imagine-bundle": "dev-master",
-    }
-}</code></pre>
-<pre><code contenteditable>$ php composer.phar install</pre></code>
-        </section>
-
-        <section>
           <section>
-            <img class="clean-image" src="img/doctrine.png" style="position:absolute;left:0;top:0" alt="">
-            <h2>Doctrine</h2>
+            <h1>Collections</h1>
             <ul>
-              <li>Doctrine ORM</li>
-              <li>Entities - POPOs</li>
-              <li>Mapping (anotaciones, XML, Yaml)</li>
-              <li>DQL</li>
+              <li>Conjunto ordenado de modelos </li>
+              <li>Modeliza JSON</li>
+              <li>Persistencia de conjunto de modelos</li>
+              <li>proxy underscore methods</li>
+            </ul>
+          </section> 
+          <section>
+            <h2>Creando un Collection</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var Betabeers = Backbone.Collection.extend({
+    model: Talk
+});
+
+var talkArray = [{speaker: "Paco Camarena", topic: 'CookieBit'},
+                 {speaker: "Héctor Badal", topic: 'Yeepply'},
+                 {speaker: "Pablo Monterde", topic: 'Backbone.js'}];
+
+var betabeers = new Betabeers(talkArray);
+
+          </code></pre>
+          <div>Solo se asocian a un tipo de model. Colleccions <strong>multimodel</strong> mediante plugins.</div>
+          </section> 
+
+          <section>
+            <h2>Añadiendo - eliminando Modelos</h2>
+            <pre><code contenteditable style="max-height: 700px">
+var firstTalk = new Talk({speaker:'Paco Camarena', topic:'CookieBit'});
+var secondTalk = new Talk({speaker:'Héctor Badal', topic:'Yeepply'});
+var thirdTalk = new Talk({speaker:'Pablo Monterde', topic:'Backbone.js'});
+
+var betabeers = new Betabeers();
+
+betabeers.add(firstTalk);
+betabeers.push({speaker: 'Héctor Badal', topic: 'Yeepply'});
+betabeers.update(thirdTalk);
+
+betabeers.remove(thirdTalk);
+betabeers.shift();
+betabeers.pop();
+
+          </code></pre>
+          <p>Trigger evento <i>add</i>/<i>remove</i> </p>
+          </section> 
+
+          <section>
+            <h2>Recuperar - iterar Modelos</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var betabeers = new Betabeers();
+
+betabeers.get("id-de-modelo");
+betabeers.at(1);
+betabeers.where({topic:'Backbone.js'});
+
+betabeers.forEach(function(talk){ 
+      return talk.get('topic'); 
+});
+          </code></pre>
+          <img src="img/collectionFunctions.png" alt="">
+          </section> 
+          <section>
+          <h1>Sincronización con el servidor</h1>
+          <pre><code contenteditable style="max-height: 600px">
+var Betabeers = Backbone.Collection.extend({
+    model: Talk,
+    url: 'talks'
+});
+
+var betabeers = new Betabeers();
+betabeers.fetch(); // se genera GET /talks
+
+        </code></pre>
+          </section> 
+
+      </section>
+
+      <section>
+          <section>
+            <h1>Views</h1>
+            <ul>
+              <li>Clases de control que nos ayudarán a representar nuestros modelo</li>
+              <li>Escuchar eventos del DOM y Models/Collections</li>
+              <li>Representar el estado y los datos al usuario</li>
+              <li>Aséptico respecto al motor de plantillas</li>
+              <li>Delega la renderización final al desarrollador</li>
+            </ul>
+          </section> 
+
+          <section>
+            <h2>Creando un View</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var TalkView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'talkClass',
+    attributes: {'style':'display:block'},
+    id: 'IamATalk'
+});
+
+var talkView = new TalkView();
+
+talkWiew.el; 
+// => &lt;li id=&quot;IamATalk&quot; class=&quot;talkClass&quot; style=&quot;display:block&quot; &gt;&lt;/li&gt;
+talkWiew.$el;
+// => $(talkWiew.el) 
+          </code></pre>
+
+          </section> 
+          <section>
+            <h2>Asociando un View a un elemento del DOM</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var talkView = new TalkView({
+    el:'#firstTalk'
+});   
+talkView.el; // => &lt;div id=&quot;firstTalk&quot; &gt;&lt;div&gt;
+            </code></pre>
+          </section>  
+          <section>
+            <h2>Asociando un modelo</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var TalkView = Backbone.View.extend({
+    initialize: function() {
+      this.listenTo(this.model, "change", this.render);
+    },
+    render: function() {
+      ...
+    }
+}); 
+
+var talkView = new TalkView({
+    model:talkModel
+});  
+
+
+            </code></pre>
+          </section>  
+          <section>
+            <h2>Render</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var TalkView = Backbone.View.extend({
+    render: function() {
+      this.el.innerHTML = this.model.get('name');  
+  
+      //Or the jQuery way  
+      this.$el.html(this.model.get('name'));  
+    }
+}); 
+
+
+            </code></pre>
+            <div>Al final... no hay magia...renderizas tu!!!</div>
+          </section>  
+          <section>
+            <h2>Templating</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var TalkView = Backbone.View.extend({
+    template: _.template('&lt;div&gt;&lt;%= topic %&gt;&lt;/div&gt;'),
+
+    render: function() {
+      var newHtml: this.template(this.model.toJSON());
+      this.$el.html(newHtml);  
+    }
+}); 
+            </code></pre>
+            <div>JavaScript templating libraries:</div>
+            <ul>
+              <li>Twig.js</li>
+              <li>Mustache.js</li>
+              <li>underscore (default)</li>
+              <li>Haml.js</li>
+              <li>Eco</li>
             </ul>
           </section>
-
           <section>
-            <h2>Entities</h2>
-            <pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px">use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Table(name=&quot;bb_user&quot;)
- * @ORM\Entity()
- */
-class User
-{
-    /**
-     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(name=&quot;first_name&quot;, type=&quot;string&quot;, length=50)
-     */
-    private $firstname;
-
-    /**
-     * @ORM\OneToMany(targetEntity=&quot;Foo\BarBundle\Entity\Address&quot;,
-            mappedBy=&quot;user&quot;)
-     */
-    private $addresses;
-}</code></pre>
-          </section>
-
-          <section>
-            <h3>Entity Manager</h3>
-            <pre><code contenteditable style="max-height: 600px">$em = $container-&gt;get('doctrine')-&gt;getManager();
-
-for($i = 0; $i &lt; 1000; $i++) {
-  $user = new User();
-  $user-&gt;setFirstname($names[$i]);
-  //...
-  $em-&gt;persist($user);
-}
-
-$em-&gt;flush();</code></pre>
-
-            <h3>DQL</h3>
-            <pre><code contenteditable style="max-height: 600px">$dql = &quot;SELECT u
-        FROM FooBarBundle:User u
-        LEFT JOIN u.addresses a
-        WHERE a.country = :country&quot;;
-$query = $em-&gt;createQuery($dql);
-$query-&gt;setParameter(&quot;country&quot;, &quot;Spain&quot;);
-
-$spanishUsers = $query-&gt;getResult();</code></pre>
-          </section>
-        </section>
+            <h2>User Interaction - Events</h2>
+            <pre><code contenteditable style="max-height: 600px">
+var TalkView = Backbone.View.extend({
+    events: {
+      'dblclick'                : 'open',
+      'click .reset'            : 'resetTopic',
+      'mouseover .title'        : 'showTooltip'
+    },
+    open: function() {
+      this.$el.show('fast');  
+    },
+    resetTopic: function() {
+      this.model.set({topic:''});
+    },
+    showTooltip: function(){ ... }
+}); 
+            </code></pre>
+           
+          </section>  
+        </section>  
 
         <section>
           <section>
-            <img class="clean-image" src="img/twig.png" style="position:absolute;right:0;top:0" alt="">
-            <h2>Twig</h2>
+            <h1>Router</h1>
+            <blockquote cite="http://backbonejs.org/">Backbone.Router provides methods for routing client-side pages, and connecting them to actions and events</blockquote>
             <ul>
-              <li>Motor de plantillas</li>
-              <li>Fast: Compila a PHP</li>
-              <li>Flexible: Fácil crear filtros, funciones y tags</li>
-              <li>Fácil de aprender</li>
-              <li>Herencia</li>
-              <li>Fuerza buenas prácticas</li>
+              <li>HTML5 History API</li>
+              <li>Activa historial del navegador</li>
+              <li>Ordenar la aplicación</li>
+              <li>Compatible con <i>hash fragments</i></li>
             </ul>
-          </section>
+          </section>  
 
           <section>
-            <h3>Sintaxis orientada a plantillas</h3>
-            <pre><code contenteditable>{% for user in users %}
-    * {{ user.name }}
-{% else %}
-    No user have been found.
-{% endfor %}</code></pre>
-            <h3>Conciso</h3>
-            <pre><code contenteditable>&lt;?php echo $var ?&gt;
-&lt;?php echo htmlspecialchars($var, ENT_QUOTES, 'UTF-8') ?&gt;</code></pre>
-            <pre class="fragment"><code contenteditable>{{ var }}
-{{ var|e }}</code></pre>
-
-<pre class="fragment"><code contenteditable>&lt;?php echo $user->isEnabled() ?&gt;</code></pre>
-<pre class="fragment"><code contenteditable>{{ user.enabled }}</code></pre>
-
+            <h2>¿Cómo funciona?</h2>
+             <pre><code contenteditable style="max-height: 600px">
+var Router = Backbone.Router.extend({
+  routes:{                                     
+      ""                    : "index"            // /
+      "events"              : "events",          // /events
+      "events/:month"       : "showMonthEvents"  // /events/march
+      "events/:month/t:id"  : "showMonthTalk"    // /events/march/5
+  },
+  index: function() { /* ... */ },
+  events: function(){ /* ... */ },
+  muestraEtiqueta: function(month){ /* ... */ },
+  muestraEtiqueta: function(tagid, page){ /* ... */ },
+ }); 
+            </code></pre>
           </section>
-
-          <section>
-            <h3>Filtros</h3>
-            <pre><code contenteditable>{# Filtros #}
-{% set names = ["pepe", "juan", "maría"] %}
-
-{{ names|join(", ") }}                {# output: pepe, juan, maría #}
-{{ names|sort|join("-") }}            {# output: juan-maría-pepe #}
-
-{{ post.publishedAt|date('d-m-Y') }}  {# output: 21-02-2013 #}</code></pre>
-            <h3>Tags</h3>
-            <pre><code contenteditable>{% macro input(name, value, type, size) %}
-    &lt;input type=&quot;{{ type|default('text') }}&quot; name=&quot;{{ name }}&quot;
-      value=&quot;{{ value|e }}&quot; size=&quot;{{ size|default(20) }}&quot; /&gt;
-{% endmacro %}
-
-&lt;p&gt;{{ forms.input('username') }}&lt;/p&gt;</code></pre>
-          <small><a href="http://twig.sensiolabs.org/documentation">Documentación Twig</a></small>
-          </section>
-        </section>
-
         <section>
-          <h2>Assetic</h2>
-          <ul>
-            <li>Framework de gestión de recursos web</li>
-            <li>Filtros (LESS, SASS, CoffeeScript)</li>
-            <li>Minimizar y combinar JS y CSS</li>
-            <li>Optimización de imágenes</li>
-          </ul>
-          <pre><code contenteditable>{% javascripts '@AcmeFooBundle/Resources/public/js/*' filter='yui_js' %}
-    &lt;script type=&quot;text/javascript&quot; src=&quot;{{ asset_url }}&quot;&gt;&lt;/script&gt;
-{% endjavascripts %}</code></pre>
-          <pre><code contenteditable>{% image '@AcmeFooBundle/Resources/public/images/example.jpg'
-    filter='jpegoptim' output='/images/example.jpg' %}
-    &lt;img src=&quot;{{ asset_url }}&quot; alt=&quot;Example&quot;/&gt;
-{% endimage %}</code></pre>
-        </section>
 
-        <section>
-          <section>
-          <h3>Crear un proyecto en Backbone.js</h3>
-          <pre><code contenteditable>$ php composer.phar create-project
-            symfony/framework-standard-edition betabeers/ 2.1.7</code></pre>
-          <pre><code contenteditable># Permisos
-$ sudo chmod +a "www-data allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
-$ sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs</code></pre>
-          </section>
-          <section>
-            <h2>Hello World!</h2>
-            <img class="image" src="img/symfony-inicio.png" alt="">
-          </section>
-          <section>
-            <h2>Profiler</h2>
-            <img class="image" src="img/profiler.png" alt="">
-          </section>
-          <section>
-            <h2>Estructura de directorios</h2>
-            <pre><code contenteditable style="font-size:.9em;line-height:110%">├── <span class="directory">app</span>
-│   ├── <span class="directory">Resources</span>
-│   ├── <span class="directory">cache</span>
-│   ├── <span class="directory">config</span>
-│   │   ├── routing.yml
-│   │   ├── security.yml
-│   │   ├── config.yml
-│   │   ├── parameters.yml
-│   ├── <span class="directory">logs</span>
-│   ├── AppKernel.php
-│   └── console
-├── <span class="directory">src</span>
-├── <span class="directory">vendor</span>
-├── <span class="directory">web</span>
-│   ├── app.php
-│   ├── app_dev.php
-│   └── config.php
-├── composer.json
-└── composer.lock</code></pre>
 
-          </section>
-          <section>
-            <h2>Crear un bundle</h2>
-            <pre><code contenteditable style="font-size:.85em;line-height:105%">$ php app/console generate:bundle
-<span class="comment">Bundle namespace:</span> FranMoreno/BetabeersBundle
-<span class="comment">Bundle name [FranMorenoBetabeersBundle]:</span> BetabeersBundle
-<span class="comment">Target directory [/Users/franmoreno/projects/betabeers/src]:</span>
-<span class="comment">Configuration format (yml, xml, php, or annotation) [annotation]:</span>
-<span class="comment">Do you want to generate the whole directory structure [no]?</span> yes
-<span class="comment">Do you confirm generation [yes]?</span>
-<span class="comment">Generating the bundle code: OK</span>
-<span class="comment">Checking that the bundle is autoloaded: OK</span>
-<span class="comment">Confirm automatic update of your Kernel [yes]?</span>
-<span class="comment">Enabling the bundle inside the Kernel: OK</span>
-<span class="comment">Confirm automatic update of the Routing [yes]?</span>
-<span class="comment">Importing the bundle routing resource: OK</span></code></pre>
-<pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px">src/FranMoreno/BetabeersBundle
-├── <span class="directory">Controller</span>
-│   └── DefaultController.php
-├── <span class="directory">DependencyInjection</span>
-├── <span class="directory">Resources</span>
-│   ├── <span class="directory">config</span>
-│   │   └── services.xml
-│   ├── <span class="directory">doc</span>
-│   ├── <span class="directory">public</span>
-│   │   ├── <span class="directory">css</span>
-│   │   ├── <span class="directory">images</span>
-│   │   └── <span class="directory">js</span>
-│   ├── <span class="directory">translations</span>
-│   └── <span class="directory">views</span>
-│       └── <span class="directory">Default</span>
-│           └── index.html.twig
-├── <span class="directory">Tests</span>
-└── BetabeersBundle.php</code></pre>
-          </section>
 
-          <section>
-            <h3>Entity</h3>
-            <pre><code contenteditable style="font-size:.85em;line-height:105%;max-height: 600px">class User
-{
-  /**
-   * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;)
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy=&quot;AUTO&quot;)
-   */
-  private $id;
 
-  /**
-   * @ORM\Column(name=&quot;firstname&quot;, type=&quot;string&quot;, length=50)
-   * @Assert\NotBlank()
-   */
-  private $firstname;
 
-  /**
-   * @ORM\ManyToOne(targetEntity=&quot;FranMoreno\BetabeersBundle\Entity\Country&quot;)
-   * @ORM\JoinColumn(name=&quot;coutry_id&quot;, referencedColumnName=&quot;id&quot;)
-   * @Assert\NotNull()
-   */
-  private $country;
 
-  /**
-   * @ORM\OneToOne(targetEntity=&quot;FranMoreno\BetabeersBundle\Entity\Profile&quot;, mappedBy=&quot;user&quot;)
-   */
-  private $profile;
 
-  /**
-   * @ORM\OneToMany(targetEntity=&quot;FranMoreno\BetabeersBundle\Entity\Address&quot;, mappedBy=&quot;user&quot;)
-   */
-  private $addresses;
-}</code></pre>
-          </section>
 
-          <section>
-            <h3>Formularios</h3>
-            <pre><code contenteditable style="font-size:.9em;line-height:105%;max-height: 600px">class UserType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            -&gt;add('firstname')
-            -&gt;add('country', 'entity', array(
-                'class' =&gt; 'FranMoreno\BetabeersBundle\Entity\Country'
-            ))
-            -&gt;add('profile', new ProfileType())
-            -&gt;add('addresses', 'collection', array(
-                'type' =&gt; new AddressType(),
-                'allow_add' =&gt; true,
-                'allow_delete' =&gt; true,
-                'by_reference' =&gt; false
-            ))
-        ;
-    }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver-&gt;setDefaults(array(
-            'data_class' =&gt; 'FranMoreno\BetabeersBundle\Entity\User'
-        ));
-    }
 
-    public function getName()
-    {
-        return 'user';
-    }
-}</code></pre>
-          </section>
 
-          <section>
-            <h3>Controladores</h3>
-            <pre><code contenteditable style="font-size:.9em;line-height:105%;max-height: 600px">/**
- * @Route(&quot;/user&quot;)
- */
-class UserController extends Controller
-{
-    /**
-     * @Route(&quot;/new&quot;, name=&quot;user_new&quot;)
-     * @Template()
-     */
-    public function newAction(Request $request)
-    {
-        $entity  = new User();
-        $form = $this-&gt;createForm(new UserType(), $entity);
-        if ($request-&gt;isMethod("POST")) {
 
-          $form-&gt;bind($request);
 
-          if ($form-&gt;isValid()) {
-              $em = $this-&gt;getDoctrine()-&gt;getManager();
-              $em-&gt;persist($entity);
-              $em-&gt;flush();
 
-              return $this-&gt;redirect($this-&gt;generateUrl('user_show', array(
-                  'id' =&gt; $entity-&gt;getId()
-              )));
-          }
-        }
-
-        return array(
-            'entity' =&gt; $entity,
-            'form'   =&gt; $form-&gt;createView(),
-        );
-    }</code></pre>
-          </section>
-
-          <section>
-            <h2>Vista</h2>
-            <pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px">{% extends '::base.html.twig' %}
-
-{% block javascripts %}
-  {{ parent() }}
-  &lt;script src=&quot;{{ asset('bundles/betabeers/js/validation.js') }}&quot;&gt;&lt;/script&gt;
-{% endblock %}
-
-{% block content %}
-  &lt;h1&gt;User creation&lt;/h1&gt;
-
-  &lt;form action=&quot;{{ path('user_new') }}&quot; method=&quot;post&quot; {{ form_enctype(form) }}&gt;
-    {{ form_widget(form) }}
-    &lt;p&gt;
-        &lt;button type=&quot;submit&quot;&gt;Create&lt;/button&gt;
-    &lt;/p&gt;
-  &lt;/form&gt;
-
-  &lt;a href=&quot;{{ path('homepage') }}&quot;&gt;Back to the list&lt;/a&gt;
-{% endblock %}</code></pre>
-          </section>
-
-          <section>
-            <h2>Resultado</h2>
-            <img class="image" src="img/users-image.jpg" alt="">
-          </section>
-
-          <section>
-            <h2>Crear un CRUD en base a Entity</h2>
-            <pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px">php app/console doctrine:generate:crud
-<span class="comment">The Entity shortcut name:</span> BetabeersBundle:User
-<span class="comment">Do you want to generate the "write" actions [no]?</span> yes
-<span class="comment">Configuration format (yml, xml, php, or annotation) [annotation]:</span>
-<span class="comment">Routes prefix [/user]:</span>
-<span class="comment">Do you confirm generation [yes]?</span>
-<span class="comment">Generating the CRUD code: OK</span>
-<span class="comment">Generating the Form code: OK</span></code></pre>
-
-            <pre><code contenteditable style="font-size:.9em;line-height:110%;max-height: 600px"><span class="directory">src/FranMoreno/BetabeersBundle</span>
-├── <span class="directory">Controller</span>
-│   └── <span class="new_file">UserController.php</span>
-├── <span class="directory">Entity</span>
-│   └── User.php
-├── <span class="directory">Form</span>
-│   └── <span class="new_file">UserType.php</span>
-├── <span class="directory">Resources</span>
-│   └── <span class="directory">views</span>
-│       └── <span class="directory">User</span>
-│           ├── <span class="new_file">edit.html.twig</span>
-│           ├── <span class="new_file">index.html.twig</span>
-│           ├── <span class="new_file">new.html.twig</span>
-│           └── <span class="new_file">show.html.twig</span>
-└── <span class="directory">Tests</span>
-    └── <span class="directory">Controller</span>
-        └── <span class="new_file">UserControllerTest.php</span></code></pre>
-
-          </section>
-        </section>
 
         <section>
           <h2>Ventajas</h2>
