@@ -101,7 +101,6 @@
 
         <section>
           <h2>¿Qué es Backbone.js?</h2>
-          <blockquote cite="http://backbonejs.org/">Get your truth out of the DOM</blockquote>
            <ul>
             <li>Provee estructura a tu client side app</li>
             <li>Modelos para representar datos</li>
@@ -115,11 +114,13 @@
 
         <section>
           <h2>Filosofía</h2>
+          <blockquote cite="http://backbonejs.org/">Get your truth out of the DOM</blockquote>
           <ul>
             <li>Eliminar código spaghetti</li>
             <li>Estructuras de datos definidas</li>
             <li>Separar el DOM de la lógica de negocio (no imprimir tus datos en el DOM)</li>
             <li>Sincronización de datos con el servidor fácil y ordenada</li>
+            <li>Libertad</li>
           </ul>
         </section>
         <section>
@@ -139,10 +140,8 @@
             <li>No es sustituyente</li>
             <li>Curva de aprendizaje rápida</li>
             <li>Dependencias con librerias conocidas:</li>
-              <ol>json2.js</ol>
-              <ol>Jquery - Zepto</ol>
-              <ol>Underscore.js (hard dependency)</ol>
           </ul>
+          <img src="img/backboneDep.png" alt="">
         </section>
 
         <section>
@@ -436,7 +435,7 @@ talk.destroy(); // se genera DELETE /talks/1
             <ul>
               <li>Conjunto ordenado de modelos </li>
               <li>Modeliza JSON</li>
-              <li>Persistencia de conjunto de modelos</li>
+              <li>Peticion de un conjunto de modelos</li>
               <li>proxy underscore methods</li>
             </ul>
           </section> 
@@ -550,7 +549,7 @@ talkView.el; // => &lt;div id=&quot;firstTalk&quot; &gt;&lt;div&gt;
             </code></pre>
           </section>  
           <section>
-            <h2>Asociando un modelo</h2>
+            <h2>Conectando una vista con un modelo</h2>
             <pre><code contenteditable style="max-height: 600px">
 var TalkView = Backbone.View.extend({
     initialize: function() {
@@ -561,9 +560,7 @@ var TalkView = Backbone.View.extend({
     }
 }); 
 
-var talkView = new TalkView({
-    model:talkModel
-});  
+var talkView = new TalkView({ model:talkModel });  
 
 
             </code></pre>
@@ -591,9 +588,12 @@ var TalkView = Backbone.View.extend({
     template: _.template('&lt;div&gt;&lt;%= topic %&gt;&lt;/div&gt;'),
 
     render: function() {
-      var newHtml: this.template(this.model.toJSON());
-      this.$el.html(newHtml);  
+      var dataTemp = this.model.toJSON();
+      var compiledTemp: this.template(dataTemp);
+      this.$el.html(compiledTemp);  
     }
+
+    &lt;div&gt;&lt; Backbone.js &gt;&lt;/div&gt;
 }); 
             </code></pre>
             <div>JavaScript templating libraries:</div>
@@ -659,9 +659,11 @@ var Router = Backbone.Router.extend({
           <section>
             <h1>Activar y navegar</h1>
             <pre><code contenteditable style="max-height: 600px">
-var appRouter = new Router();
+var appRouter = new Router(); 
+
 Backbone.history.start({pushState: true}); 
-appRouter.navigate("events", {trigger: true, replace: true});
+
+appRouter.navigate("events");
             </code></pre>
            
           </section>  
@@ -680,40 +682,35 @@ appRouter.navigate("events", {trigger: true, replace: true});
             <li>No hook code en atributos <i>data-</i> o <i>ng-</i></li>
             <li>Restful API</li>
             <li>Libreria, no framework. Compatibilidad</li>
+            <li>Pluggins</li>
           </ul>
         </section>
 
         <section>
           <h2>Desventajas</h2>
           <ul>
+            <li>Demasiado agnóstico</li>
             <li>Renderizado no automático</li>
+            <li>No soporta nested models</li>
             <li>No óptimo para pequeñas aplicaciones</li>
           </ul>
         </section>
 
         <section>
-          <h2>Aprender Backbone.js</h2>
+          <h2><a href="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">Extensions</a></h2>
           <ul>
-            <li><a href="http://www.symfony.com">Documentación oficial</a></li>
-            <li><a href="http://symfony.es/libro/">Libro: Desarrollo web ágil con Backbone.js - Javier Eguiluz</a></li>
-            <li><a href="http://www.maestrosdelweb.com/editorial/curso-Backbone.js-introduccion-instalacion/">Curso introducción a Backbone.js - Maestros del web</a></li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>Referencias</h2>
-          <ul>
-            <li><a href="http://www.symfony.com">Symfony.com</a></li>
-            <li><a href="http://fabien.potencier.org/article/49/what-is-Backbone.js">http://fabien.potencier.org/article/49/what-is-Backbone.js</a></li>
-            <li><a href="https://speakerdeck.com/betabeers/taller-Backbone.js">https://speakerdeck.com/betabeers/taller-Backbone.js</a></li>
-            <li><a href="http://symfony.com/six-good-technical-reasons">http://symfony.com/six-good-technical-reasons</a></li>
+            <li><a ref="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">Nested models</a></li>
+            <li><a ref="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">Validators</a></li>
+            <li><a ref="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">Forms builders</a></li>
+            <li><a ref="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">Frameworks sobre backbone.js</a></li>
+            
           </ul>
         </section>
 
         <section>
           <h1>¿Preguntas?</h1>
           <ul>
-            <li><a href="mailto:@gmail.com">@gmail.com</a></li>
+            <li><a href="mailto:pablomonterde@gmail.com">pablomonterde@gmail.com</a></li>
             <li><a href="http://twitter.com/pablomonterdep">@pablomonterdep</a></li>
           </ul>
         </section>
