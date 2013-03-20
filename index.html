@@ -644,51 +644,50 @@ var TalkView = Backbone.View.extend({
              <pre><code contenteditable style="max-height: 600px">
 var Router = Backbone.Router.extend({
   routes:{                                     
-      ""                    : "index"            // /
-      "events"              : "events",          // /events
-      "events/:month"       : "showMonthEvents"  // /events/march
-      "events/:month/t:id"  : "showMonthTalk"    // /events/march/5
+    ""                    : "index",           // / 
+    "events"              : "events",          // /events 
+    "events/:month"       : "showMonthEvents", // /events/march 
+    "events/:month/t:id" : "showMonthTalks"    // /events/march/t5 
   },
   index: function() { /* ... */ },
   events: function(){ /* ... */ },
-  muestraEtiqueta: function(month){ /* ... */ },
-  muestraEtiqueta: function(tagid, page){ /* ... */ },
- }); 
+  showMonthEvents: function(month){ /* ... */ },
+  showMonthTalks: function(month,talkId){ /* ... */ },
+}); 
             </code></pre>
           </section>
-        <section>
+          <section>
+            <h1>Activar y navegar</h1>
+            <pre><code contenteditable style="max-height: 600px">
+var appRouter = new Router();
+Backbone.history.start({pushState: true}); 
+appRouter.navigate("events", {trigger: true, replace: true});
+            </code></pre>
+           
+          </section>  
 
 
-
-
-
-
-
-
-
-
-
-
-
+        </section>
 
 
         <section>
           <h2>Ventajas</h2>
           <ul>
-            <li>Desarrollo rápido de aplicaciones</li>
-            <li>Rápido</li>
-            <li>Flexible</li>
-            <li>Extensible</li>
-            <li>Estable y sostenible</li>
-            <li>Testeable</li>
+            <li>Aporta herramientas útiles</li>
+            <li>No fuerza un motor de plantillas determinado</li>
+            <li>Pequeño</li>
+            <li>No inyecta lógica en tu HTML</li>
+            <li>No hook code en atributos <i>data-</i> o <i>ng-</i></li>
+            <li>Restful API</li>
+            <li>Libreria, no framework. Compatibilidad</li>
           </ul>
         </section>
 
         <section>
           <h2>Desventajas</h2>
           <ul>
-            <li>Curva de aprendizaje</li>
-            <li>API aún no estable</li>
+            <li>Renderizado no automático</li>
+            <li>No óptimo para pequeñas aplicaciones</li>
           </ul>
         </section>
 
