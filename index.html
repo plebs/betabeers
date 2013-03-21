@@ -84,24 +84,22 @@
         <section>
           <h2>Pablo Monterde</h2>
           <ul>
-            <li><a href="">PHP - javascript - actionscript3</a></li>
+            <li><a href="">PHP - javascript - AS3</a></li>
             <li><a href="http://www.onbile.com">Onbile</a></li>
             <li><a href="mailto:pablomonterde@gmail.com">pablomonterde@gmail.com</a></li>
             <li><a href="http://twitter.com/pablomonterdep">@pablomonterdep</a></li>
           </ul>
         </section>
 
-        
-
         <section>
           <h2> Backbone.js </h2>
-         
           <blockquote cite="http://backbonejs.org/">Backbone.js provee una estructura a aplicaciones que hacen uso intensivo de <strong>Javascript</strong> en el lado del cliente, proveyendo <strong>modelos</strong> clave-valor enlazables mediante <strong>eventos</strong>, <strong>colecciones</strong> con una extensa API, <strong>vistas</strong> con manejadores de eventos declarativos y conexiones a interfaces <strong>RESTful JSON</strong>.</blockquote>
         </section>
 
         <section>
           <h2>¿Qué es Backbone.js?</h2>
            <ul>
+            <li><strong>Libreria</strong></li>
             <li>Provee estructura a tu client side app</li>
             <li>Modelos para representar datos</li>
             <li>Vistas para reflejar los model en el DOM</li>
@@ -146,7 +144,6 @@
 
         <section>
           <h2>Underscore.js</h2>
-          <blockquote >NO TE CREES ESA FUNCION porque YA ESTÁ HECHA...</blockquote>
           <ul>
             <li>80 funciones primitivas</li>
               <ol>Collections</ol>
@@ -154,24 +151,24 @@
               <ol>Functions</ol>
               <ol>Objects</ol>
               <ol>Utility</ol>
-            <li>+60 funciones manipulación Strings con <strong>underscoreString.js</strong></li>
+              <ol>+60 Strings (<strong>underscoreString.js</strong>)</ol>
           </ul>
           <pre><code contenteditable style="max-height: 600px">
   var betabeersAssitants = [
-    {name:'Juan' , profession:'programmer', age:24},
-    {name:'Peter' , profession:'programmer', age:31},
-    {name:'Daniel' , profession:'translator', age:75}
+    {name:'Juan Fernandez' , profession:'programmer', age:24},
+    {name:'Peter Smith' , profession:'programmer', age:31},
+    {name:'Daniel Perez' , profession:'Bowler', age:107}
   ];
 
-  _.where(betabeersAssitants, {profession: 'translator',  age:75});
-  => [{name:'Daniel' , profession:'translator', age:75}]
+  _.where(betabeersAssitants, {profession: 'Bowler',  age:107});
+  => [{name:'Daniel Perez' , profession:'Bowler', age:107}]
           </code></pre>
         </section>
        
 
         <section>
           <section>
-            <h2>Proyectos desarrollados con Backbone.js</h2>
+            <h2>Proyectos que utilizan Backbone.js</h2>
             <div class="half left">
               <p><a href="http://www.documentcloud.org/">Groupon Now!</a></p>
               <img src="img/groupon.png" alt="">
@@ -315,15 +312,15 @@ var Talk = Backbone.Model.extend({
 
 var talk = new Talk({ speaker: "Paco Camarena", topic: 'Backbone.js'});  
 
-talk.get('topic'); // => 'Backbone.js'
+talk.get('topic');  => 'Backbone.js'
 
 talk.set('topic', "CookieBit"}); 
-talk.get('topic'); // => 'CookieBit' 
+talk.get('topic');  => 'CookieBit' 
   
           </code></pre>
           </section>  
           <section>
-            <h2>Extend</h2>
+            <h2>'Herencia' - Extend</h2>
              <pre><code contenteditable style="max-height: 600px">
 var Talk = Backbone.Model.extend({  
     defaults: {  
@@ -368,7 +365,7 @@ var Talk = Backbone.Model.extend({
 
 var talk = new Talk({ speaker: 'Pablo Monterde', topic:'Backbone.js'});
 talk.set('topic','Symbian',{validation:true}); 
-talk.get('topic'); // => 'Backbone.js'
+talk.get('topic');  => 'Backbone.js'
           </code></pre>
           <p>Cada cambio en un modelo dispara un evento <strong>change</strong></p>
           </section>  
@@ -384,7 +381,7 @@ talk.get('topic'); // => 'Backbone.js'
             <pre><code contenteditable style="max-height: 600px">
 var talk = new Talk({ speaker: "Paco Camarena", topic: 'CookieBit'});  
 talk.set('topic','Backbone.js'); 
-var previousTopic = talk.previous('topic'); // => 'CookieBit' 
+var previousTopic = talk.previous('topic');  => 'CookieBit' 
           </code></pre>
             <blockquote cite="http://backbonejs.org/"> Useful for getting back to a valid state after an error occurs.</blockquote>
           </section>  
@@ -460,7 +457,7 @@ var talkArray = [{speaker: "Paco Camarena", topic: 'CookieBit'},
 var betabeers = new Betabeers(talkArray);
 
           </code></pre>
-          <div>Solo se asocian a un tipo de model. Colleccions <strong>multimodel</strong> mediante plugins.</div>
+          <div>Solo se asocian a un tipo de model. Colleccions <strong>multimodel</strong> mediante extensions.</div>
           </section> 
 
           <section>
@@ -540,9 +537,9 @@ var TalkView = Backbone.View.extend({
 var talkView = new TalkView();
 
 talkWiew.el; 
-// => &lt;li id=&quot;IamATalk&quot; class=&quot;talkClass&quot; style=&quot;display:block&quot; &gt;&lt;/li&gt;
+//  &lt;li id=&quot;IamATalk&quot; class=&quot;talkClass&quot; style=&quot;display:block&quot; &gt;&lt;/li&gt;
 talkWiew.$el;
-// => $(talkWiew.el) 
+// $(talkWiew.el) 
           </code></pre>
 
           </section> 
@@ -552,7 +549,7 @@ talkWiew.$el;
 var talkView = new TalkView({
     el:'#firstTalk'
 });   
-talkView.el; // => &lt;div id=&quot;firstTalk&quot; &gt;&lt;div&gt;
+talkView.el;  // &lt;div id=&quot;firstTalk&quot; &gt;&lt;div&gt;
             </code></pre>
           </section>  
           <section>
@@ -582,7 +579,8 @@ var TalkView = Backbone.View.extend({
       //Or the jQuery way  
       this.$el.html(this.model.get('name'));  
     }
-}); 
+});
+//  &lt;li id=&quot;IamATalk&quot; class=&quot;talkClass&quot; style=&quot;display:block&quot; &gt; Pablo Monterde &lt;/li&gt;
 
 
             </code></pre>
@@ -600,8 +598,8 @@ var TalkView = Backbone.View.extend({
       this.$el.html(compiledTemp);  
     }
 
-    &lt;div&gt;&lt; Backbone.js &gt;&lt;/div&gt;
 }); 
+//  &lt;div&gt; Backbone.js &lt;/div&gt;
             </code></pre>
             <div>JavaScript templating libraries:</div>
             <ul>
@@ -693,7 +691,7 @@ appRouter.navigate("events");
             <li>No hook code en atributos <i>data-</i> o <i>ng-</i></li>
             <li>Restful API</li>
             <li>Libreria, no framework. Compatibilidad</li>
-            <li>Pluggins</li>
+            <li>Extensions</li>
           </ul>
         </section>
 
@@ -708,7 +706,7 @@ appRouter.navigate("events");
         </section>
 
         <section>
-          <h2><a href="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">Extensions</a></h2>
+          <h2>Extensions</h2>
           <ul>
             <li><a ref="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">Nested models</a></li>
             <li><a ref="https://github.com/documentcloud/backbone/wiki/Extensions%2C-Plugins%2C-Resources">Validators</a></li>
